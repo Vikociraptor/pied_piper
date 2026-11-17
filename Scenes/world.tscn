@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://w0jvpctpnfj6" path="res://assets/temp/Tiles/Water_Middle.png" id="7_7yui6"]
 [ext_resource type="PackedScene" uid="uid://b5ydtoksfgi1k" path="res://Scenes/sheep.tscn" id="8_k7acu"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jsssl"]
+radius = 50.0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c5t2i"]
 texture = ExtResource("2_o06y3")
 0:0/0 = 0
@@ -415,9 +418,15 @@ sources/5 = SubResource("TileSetAtlasSource_0pcbe")
 [node name="world" type="Node2D" unique_id=995762088]
 
 [node name="Player" parent="." unique_id=944597921 instance=ExtResource("1_a02cp")]
+max_speed = 150
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1038056916]
 scale = Vector2(0.5, 0.5)
+
+[node name="DetectionArea" type="Area2D" parent="Player" unique_id=76085088]
+
+[node name="CircleRadius" type="CollisionShape2D" parent="Player/DetectionArea" unique_id=936338874]
+shape = SubResource("CircleShape2D_jsssl")
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=378186057]
 z_index = -2

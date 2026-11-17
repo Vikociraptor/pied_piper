@@ -1,9 +1,15 @@
 extends CharacterBody2D
 
-const max_speed: int = 100
-const acceleration: int = 10
+
+@export var max_speed: int = 100
+@export var acceleration: int = 10
 const friction: int = 8
 var direction: String = "front"
+
+@onready var detectioon_area: Area2D = $DetectionArea
+
+@export var selectedFrequency := 0.0
+@export var frequencyDistance := 5.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -15,6 +21,9 @@ func _physics_process(delta: float) -> void:
 
 	if input:
 		_update_direction(input)
+		
+	if Input.is_action_pressed("shoot"):
+		_play_frequency()
 
 	var lerp_weight = delta * (acceleration if input else friction)
 	velocity = lerp(velocity, input * max_speed, lerp_weight)
@@ -36,3 +45,18 @@ func _update_direction(input: Vector2) -> void:
 func _update_animation(input: Vector2) -> void:
 	var state := "walk" if input else "idle"
 	sprite.play(state + "_" + direction)
+	
+func _check_cone(cone_angle: int) -> Array[Node2D]:
+	var mouse_world := get_global_mouse_position()
+	var player_to_mouse := mouse_world - position
+	var direction := player_to_mouse.normalized()
+	var hits: Array[Node2D] = []
+	
+	for body in detectioon_area.get_overlapping_bodies():
+		if body == self:
+			continue
+	
+	return hits
+	
+func _play_frequency() -> void:
+	pass
