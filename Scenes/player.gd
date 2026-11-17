@@ -19,6 +19,7 @@ func _ready() -> void:
 	circle.shape.radius = frequencyDistance
 
 func _physics_process(delta: float) -> void:
+	queue_redraw()
 	var input = Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
 		Input.get_action_strength("down") - Input.get_action_strength("up")
@@ -69,4 +70,16 @@ func _check_cone() -> Array[Node2D]:
 	return hits
 	
 func _play_frequency() -> void:
-	pass
+	for body in _check_cone():
+		if body is animal2D:
+			body._play_frequency_action(selectedFrequency)
+			
+func _draw() -> void:
+	if Input.is_action_pressed("shoot"):
+		var aim_angle := get_local_mouse_position().angle()
+		var half := deg_to_rad(cone_angle_deg) / 2.0
+		var col := Color.YELLOW
+
+		draw_arc(Vector2.ZERO, frequencyDistance, aim_angle - half, aim_angle + half, 16, col, 1)
+		draw_line(Vector2.ZERO, Vector2.from_angle(aim_angle - half) * frequencyDistance, col, 1)
+		draw_line(Vector2.ZERO, Vector2.from_angle(aim_angle + half) * frequencyDistance, col, 1)

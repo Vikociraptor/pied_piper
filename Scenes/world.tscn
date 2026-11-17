@@ -442,4 +442,3 @@ tile_set = SubResource("TileSet_be312")
 
 [node name="Sheep" parent="." unique_id=1995970214 instance=ExtResource("8_k7acu")]
 position = Vector2(229, -116)
-frequencyTriggers = Array[float]([0.0])
