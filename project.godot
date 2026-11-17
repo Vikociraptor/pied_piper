@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="pied_piper"
+run/main_scene="uid://dyo5ra8y24kpp"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
