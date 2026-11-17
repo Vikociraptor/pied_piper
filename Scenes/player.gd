@@ -6,12 +6,17 @@ extends CharacterBody2D
 const friction: int = 8
 var direction: String = "front"
 
-@onready var detectioon_area: Area2D = $DetectionArea
+@onready var detection_area: Area2D = $DetectionArea
+@onready var circle := $DetectionArea/CircleRadius
 
 @export var selectedFrequency := 0.0
-@export var frequencyDistance := 5.0
+@export var frequencyDistance := 50.0
+@export var cone_angle_deg := 60.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+func _ready() -> void:
+	circle.shape.radius = frequencyDistance
 
 func _physics_process(delta: float) -> void:
 	var input = Vector2(
@@ -46,15 +51,20 @@ func _update_animation(input: Vector2) -> void:
 	var state := "walk" if input else "idle"
 	sprite.play(state + "_" + direction)
 	
-func _check_cone(cone_angle: int) -> Array[Node2D]:
-	var mouse_world := get_global_mouse_position()
-	var player_to_mouse := mouse_world - position
-	var direction := player_to_mouse.normalized()
+func _check_cone() -> Array[Node2D]:
+	var aim := (get_global_mouse_position() - global_position).normalized()
+	
+	var half_angle := deg_to_rad(cone_angle_deg) / 2.0
+	
 	var hits: Array[Node2D] = []
 	
-	for body in detectioon_area.get_overlapping_bodies():
+	for body in detection_area.get_overlapping_bodies():
 		if body == self:
 			continue
+			
+		var to_body := body.global_position - global_position
+		if absf(aim.angle_to(to_body)) <= half_angle:
+			hits.append(body)
 	
 	return hits
 	
