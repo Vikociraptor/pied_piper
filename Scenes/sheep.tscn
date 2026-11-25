@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://b5ydtoksfgi1k"]
+
+[ext_resource type="Texture2D" uid="uid://cmiqlkwgpm6jp" path="res://assets/temp/Animals/Sheep/Sheep.png" id="1_sheep"]
+[ext_resource type="Script" uid="uid://cgy3dy6ya5s27" path="res://Scenes/sheep.gd" id="2_sheep"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sheep"]
+radius = 5.0
+height = 18.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle0"]
+atlas = ExtResource("1_sheep")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle1"]
+atlas = ExtResource("1_sheep")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_walk0"]
+atlas = ExtResource("1_sheep")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_walk1"]
+atlas = ExtResource("1_sheep")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sheep"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle1")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_walk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_walk1")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_be312"]
+radius = 37.12142
+
+[node name="Sheep" type="CharacterBody2D" unique_id=1995970214]
+scale = Vector2(2, 2)
+script = ExtResource("2_sheep")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=972823324]
+position = Vector2(0, 4)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_sheep")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=801002074]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_sheep")
+animation = &"idle"
+
+[node name="InteractZone" type="Area2D" parent="." unique_id=809849918]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone" unique_id=1979658171]
+shape = SubResource("CircleShape2D_be312")
