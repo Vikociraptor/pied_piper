@@ -1,0 +1,91 @@
+name: Export game
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:        # adds a "Run workflow" button in the Actions tab
+
+env:
+  GODOT_VERSION: 4.7.1
+
+jobs:
+  export:
+    name: Export ${{ matrix.preset }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - preset: Windows Desktop
+            os: ubuntu-latest
+            dir: build/windows
+            artifact: pied_piper-windows
+          - preset: Linux
+            os: ubuntu-latest
+            dir: build/linux
+            artifact: pied_piper-linux
+          # Godot can only build a .dmg on a Mac, so this one runs on macOS.
+          - preset: macOS
+            os: macos-latest
+            dir: build/mac
+            artifact: pied_piper-mac
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Godot paths for this OS
+        run: |
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            echo "GODOT=$HOME/godot/Godot.app/Contents/MacOS/Godot" >> "$GITHUB_ENV"
+            echo "TEMPLATES_DIR=$HOME/Library/Application Support/Godot/export_templates" >> "$GITHUB_ENV"
+          else
+            echo "GODOT=$HOME/godot/godot" >> "$GITHUB_ENV"
+            echo "TEMPLATES_DIR=$HOME/.local/share/godot/export_templates" >> "$GITHUB_ENV"
+          fi
+
+      - name: Cache Godot and export templates
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ${{ env.TEMPLATES_DIR }}
+          key: godot-${{ env.GODOT_VERSION }}-${{ runner.os }}
+
+      - name: Install Godot and export templates
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          base=https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable
+          mkdir -p ~/godot
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            editor="Godot_v${GODOT_VERSION}-stable_macos.universal.zip"
+          else
+            editor="Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          fi
+          curl -sSLO "$base/$editor"
+          curl -sSLO "$base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          unzip -q "$editor" -d ~/godot
+          if [ "$RUNNER_OS" != "macOS" ]; then
+            mv ~/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64 "$GODOT"
+          fi
+          mkdir -p "$TEMPLATES_DIR/${GODOT_VERSION}.stable"
+          unzip -q "Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          mv templates/* "$TEMPLATES_DIR/${GODOT_VERSION}.stable/"
+
+      - name: Import assets
+        # The first import of a fresh checkout can exit non-zero even when it worked.
+        run: '"$GODOT" --headless --import || true'
+
+      - name: Export ${{ matrix.preset }}
+        run: |
+          mkdir -p "${{ matrix.dir }}"
+          "$GODOT" --headless --export-release "${{ matrix.preset }}"
+          ls -la "${{ matrix.dir }}"
+          # Godot can exit 0 on a failed export, so fail if nothing was written.
+          [ -n "$(ls -A "${{ matrix.dir }}")" ]
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.dir }}
+          if-no-files-found: error
