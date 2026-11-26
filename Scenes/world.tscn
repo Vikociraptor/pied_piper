@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cnvmadaeft172" path="res://assets/temp/Tiles/Path_Middle.png" id="6_ikia7"]
 [ext_resource type="Texture2D" uid="uid://w0jvpctpnfj6" path="res://assets/temp/Tiles/Water_Middle.png" id="7_7yui6"]
 [ext_resource type="PackedScene" uid="uid://b5ydtoksfgi1k" path="res://Scenes/sheep.tscn" id="8_k7acu"]
+[ext_resource type="PackedScene" uid="uid://chgrkuwpkhkbf" path="res://Scenes/hud.tscn" id="9_hud"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jsssl"]
 radius = 50.0
@@ -442,3 +443,6 @@ tile_set = SubResource("TileSet_be312")
 
 [node name="Sheep" parent="." unique_id=1995970214 instance=ExtResource("8_k7acu")]
 position = Vector2(229, -116)
+
+[node name="HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("9_hud")]
+player = NodePath("../Player")

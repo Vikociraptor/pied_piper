@@ -12,6 +12,9 @@ const magnifying_glass_texture = preload("res://assets/temp/Items/magnifying_gla
 enum Item { GLASS, RADIO }
 var equipped: Item = Item.RADIO
 
+## Emitted whenever the held item changes
+signal equipped_changed(item: Item)
+
 @onready var detection_area: Area2D = $DetectionArea
 @onready var circle := $DetectionArea/CircleRadius
 
@@ -23,6 +26,8 @@ var equipped: Item = Item.RADIO
 
 func _ready() -> void:
 	circle.shape.radius = frequencyDistance
+	# Make the hand sprite match the starting item.
+	equip(equipped)
 
 func _physics_process(delta: float) -> void:
 	queue_redraw()
@@ -46,11 +51,14 @@ func _physics_process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("equip_radio"):
-		equipped = Item.RADIO
-		onhand_sprite.texture = radio_texture
+		equip(Item.RADIO)
 	elif event.is_action_pressed("equip_glass"):
-		equipped = Item.GLASS
-		onhand_sprite.texture = magnifying_glass_texture
+		equip(Item.GLASS)
+
+func equip(item: Item) -> void:
+	equipped = item
+	onhand_sprite.texture = radio_texture if item == Item.RADIO else magnifying_glass_texture
+	equipped_changed.emit(item)
 
 ## True while the radio is in hand and the shoot button is held.
 func _is_using_radio() -> bool:
