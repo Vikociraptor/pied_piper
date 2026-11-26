@@ -1,10 +1,13 @@
 extends CharacterBody2D
 
-
 @export var max_speed: int = 100
 @export var acceleration: int = 10
 const friction: int = 8
 var direction: String = "front"
+
+const radio_texture = preload("res://assets/temp/Items/hand_radio.png")
+const magnifying_glass_texture = preload("res://assets/temp/Items/magnifying_glass.png")
+@onready var onhand_sprite = $OnHandSprite
 
 @onready var detection_area: Area2D = $DetectionArea
 @onready var circle := $DetectionArea/CircleRadius
@@ -37,6 +40,12 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	_update_animation(input)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("equip_radio"):
+		onhand_sprite.texture = radio_texture
+	elif event.is_action_pressed("equip_glass"):
+		onhand_sprite.texture = magnifying_glass_texture
 
 func _update_direction(input: Vector2) -> void:
 	# Diagonals favour the side animation.

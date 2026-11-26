@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bc2vdigv00oxi" path="res://assets/temp/Player/Player.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cnvj324ek817c" path="res://Scenes/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://d37606dmus5al" path="res://assets/temp/Items/magnifying_glass.png" id="3_6t5aa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_be312"]
 radius = 6.0
@@ -303,3 +304,8 @@ shape = SubResource("CapsuleShape2D_be312")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_be312")
 animation = &"idle_front"
+
+[node name="OnHandSprite" type="Sprite2D" parent="." unique_id=1900785240]
+position = Vector2(6.4999995, -0.49999997)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_6t5aa")
