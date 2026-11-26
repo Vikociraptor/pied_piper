@@ -9,6 +9,9 @@ const radio_texture = preload("res://assets/temp/Items/hand_radio.png")
 const magnifying_glass_texture = preload("res://assets/temp/Items/magnifying_glass.png")
 @onready var onhand_sprite = $OnHandSprite
 
+enum Item { GLASS, RADIO }
+var equipped: Item = Item.RADIO
+
 @onready var detection_area: Area2D = $DetectionArea
 @onready var circle := $DetectionArea/CircleRadius
 
@@ -31,7 +34,7 @@ func _physics_process(delta: float) -> void:
 	if input:
 		_update_direction(input)
 		
-	if Input.is_action_pressed("shoot"):
+	if _is_using_radio():
 		_play_frequency()
 
 	var lerp_weight = delta * (acceleration if input else friction)
@@ -43,9 +46,15 @@ func _physics_process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("equip_radio"):
+		equipped = Item.RADIO
 		onhand_sprite.texture = radio_texture
 	elif event.is_action_pressed("equip_glass"):
+		equipped = Item.GLASS
 		onhand_sprite.texture = magnifying_glass_texture
+
+## True while the radio is in hand and the shoot button is held.
+func _is_using_radio() -> bool:
+	return equipped == Item.RADIO and Input.is_action_pressed("shoot")
 
 func _update_direction(input: Vector2) -> void:
 	# Diagonals favour the side animation.
@@ -84,7 +93,7 @@ func _play_frequency() -> void:
 			body._play_frequency_action(selectedFrequency)
 			
 func _draw() -> void:
-	if Input.is_action_pressed("shoot"):
+	if _is_using_radio():
 		var aim_angle := get_local_mouse_position().angle()
 		var half := deg_to_rad(cone_angle_deg) / 2.0
 		var col := Color.YELLOW
