@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cmiqlkwgpm6jp" path="res://assets/temp/Animals/Sheep/Sheep.png" id="1_sheep"]
 [ext_resource type="Script" uid="uid://cgy3dy6ya5s27" path="res://Scenes/sheep.gd" id="2_sheep"]
+[ext_resource type="Resource" uid="uid://tvac3fer7am5" path="res://journal/entries/sheep.tres" id="3_entry"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sheep"]
 radius = 5.0
@@ -54,6 +55,7 @@ radius = 37.12142
 [node name="Sheep" type="CharacterBody2D" unique_id=1995970214]
 scale = Vector2(2, 2)
 script = ExtResource("2_sheep")
+journal_entry = ExtResource("3_entry")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=972823324]
 position = Vector2(0, 4)

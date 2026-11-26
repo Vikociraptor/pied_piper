@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://wf17m8ytb8sp"]
+
+[ext_resource type="Script" uid="uid://da7pg33fkxs2t" path="res://journal/journal_ui.gd" id="1_ui"]
+
+[node name="JournalUI" type="CanvasLayer" unique_id=539618528]
+process_mode = 3
+layer = 2
+script = ExtResource("1_ui")
+
+[node name="Window" type="MarginContainer" parent="." unique_id=1089127154]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="PanelContainer" type="PanelContainer" parent="Window" unique_id=881184312]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Window/PanelContainer" unique_id=566515989]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/PanelContainer/Margin" unique_id=91809991]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Tabs" type="HBoxContainer" parent="Window/PanelContainer/Margin/VBoxContainer" unique_id=1612533393]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Animals" type="Button" parent="Window/PanelContainer/Margin/VBoxContainer/Tabs" unique_id=357376025]
+layout_mode = 2
+toggle_mode = true
+text = "Animals"
+
+[node name="Plants" type="Button" parent="Window/PanelContainer/Margin/VBoxContainer/Tabs" unique_id=31683388]
+layout_mode = 2
+toggle_mode = true
+text = "Plants"
+
+[node name="Map" type="Button" parent="Window/PanelContainer/Margin/VBoxContainer/Tabs" unique_id=1953393245]
+layout_mode = 2
+toggle_mode = true
+text = "Map"
+
+[node name="Body" type="HBoxContainer" parent="Window/PanelContainer/Margin/VBoxContainer" unique_id=868183221]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="Scroll" type="ScrollContainer" parent="Window/PanelContainer/Margin/VBoxContainer/Body" unique_id=658271800]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="Window/PanelContainer/Margin/VBoxContainer/Body/Scroll" unique_id=8381497]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="EmptyLabel" type="Label" parent="Window/PanelContainer/Margin/VBoxContainer/Body/Scroll" unique_id=100445865]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Nothing recorded here yet."
+
+[node name="Detail" type="VBoxContainer" parent="Window/PanelContainer/Margin/VBoxContainer/Body" unique_id=612637714]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DetailIcon" type="TextureRect" parent="Window/PanelContainer/Margin/VBoxContainer/Body/Detail" unique_id=834443962]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DetailTitle" type="Label" parent="Window/PanelContainer/Margin/VBoxContainer/Body/Detail" unique_id=2037402024]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="DetailText" type="Label" parent="Window/PanelContainer/Margin/VBoxContainer/Body/Detail" unique_id=304011875]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="NotesHeading" type="Label" parent="Window/PanelContainer/Margin/VBoxContainer/Body/Detail" unique_id=1056116858]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "My notes"
+
+[node name="Notes" type="TextEdit" parent="Window/PanelContainer/Margin/VBoxContainer/Body/Detail" unique_id=2086110369]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Write what you've noticed..."
+wrap_mode = 1
+
+[node name="Hint" type="Label" parent="Window/PanelContainer/Margin/VBoxContainer" unique_id=1001794815]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Tab to close  ·  Esc to stop typing / close"
+horizontal_alignment = 2
+
+[node name="Toast" type="Label" parent="." unique_id=970536379]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 16.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "New journal entry"
+horizontal_alignment = 1

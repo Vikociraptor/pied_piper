@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="JournalEntry" format=3 uid="uid://tvac3fer7am5"]
+
+[ext_resource type="Script" uid="uid://qbxvaqpko5b5" path="res://journal/journal_entry.gd" id="1_8h8aa"]
+[ext_resource type="Texture2D" uid="uid://cmiqlkwgpm6jp" path="res://assets/temp/Animals/Sheep/Sheep.png" id="2_sheep"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("2_sheep")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+script = ExtResource("1_8h8aa")
+id = &"sheep"
+title = "Sheep"
+icon = SubResource("AtlasTexture_icon")
+description = "A woolly grazer that wanders the fields in small flocks.
+
+Freezes in place when it hears frequency 0.0 on the radio."
+metadata/_custom_type_script = "uid://qbxvaqpko5b5"
